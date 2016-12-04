@@ -40,7 +40,7 @@ public class Tabata extends AppCompatActivity {
     private Button pauseButton;
     //DATA
     private Tabataconfig saveOfCurrentConfig;
-    private Tabataconfig currentConfig;
+    private Tabataconfig currentConfig = new Tabataconfig("Default", 5, 5, 3, 4, 1);
     private long updatedTime;
     private CountDownTimer timer;
     private String currentTimerName;
@@ -67,8 +67,6 @@ public class Tabata extends AppCompatActivity {
 
 
         currentTimerName = "Ready to launch!";
-        currentConfig = new Tabataconfig("test", 5, 5, 3, 4, 1);
-
         miseAJour();
     }
 
@@ -211,8 +209,10 @@ public class Tabata extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_CONFIG_REQUEST) {
-            currentConfig =(Tabataconfig) data.getSerializableExtra("Tabataconfig");
-            miseAJour();
+            if (resultCode==RESULT_OK){
+                currentConfig =(Tabataconfig) data.getParcelableExtra("Tabataconfig");
+                miseAJour();
+            }
         }
     }
 

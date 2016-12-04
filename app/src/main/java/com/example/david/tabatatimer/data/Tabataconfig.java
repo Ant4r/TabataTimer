@@ -1,6 +1,9 @@
 package com.example.david.tabatatimer.data;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.orm.SugarRecord;
 
 import java.io.Serializable;
@@ -10,7 +13,7 @@ import java.io.Serializable;
  * Object to save the full configuration of a tabatatimer
  */
 
-public class Tabataconfig extends SugarRecord implements Serializable {
+public class Tabataconfig extends SugarRecord implements Parcelable {
 
     private String name;
     private int prepare;
@@ -93,4 +96,40 @@ public class Tabataconfig extends SugarRecord implements Serializable {
     public void setTabatas(int tabatas) {
         this.tabatas = tabatas;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeInt(this.prepare);
+        dest.writeInt(this.work);
+        dest.writeInt(this.rest);
+        dest.writeInt(this.cycles);
+        dest.writeInt(this.tabatas);
+    }
+
+    protected Tabataconfig(Parcel in) {
+        this.name = in.readString();
+        this.prepare = in.readInt();
+        this.work = in.readInt();
+        this.rest = in.readInt();
+        this.cycles = in.readInt();
+        this.tabatas = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Tabataconfig> CREATOR = new Parcelable.Creator<Tabataconfig>() {
+        @Override
+        public Tabataconfig createFromParcel(Parcel source) {
+            return new Tabataconfig(source);
+        }
+
+        @Override
+        public Tabataconfig[] newArray(int size) {
+            return new Tabataconfig[size];
+        }
+    };
 }
