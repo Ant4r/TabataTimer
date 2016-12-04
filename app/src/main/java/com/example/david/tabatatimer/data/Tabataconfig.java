@@ -3,12 +3,14 @@ package com.example.david.tabatatimer.data;
 
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
+
 /**
  * Created by David on 31/10/2016.
  * Object to save the full configuration of a tabatatimer
  */
 
-public class Tabataconfig extends SugarRecord {
+public class Tabataconfig extends SugarRecord implements Serializable {
 
     private String name;
     private int prepare;
@@ -37,6 +39,15 @@ public class Tabataconfig extends SugarRecord {
         this.rest = rest;
         this.cycles = cycles;
         this.tabatas = tabatas;
+    }
+
+    public void copy(Tabataconfig tabataconfig) {
+        this.name = tabataconfig.getName();
+        this.prepare = tabataconfig.getPrepare();
+        this.work = tabataconfig.getWork();
+        this.rest = tabataconfig.getRest();
+        this.cycles = tabataconfig.getCycles();
+        this.tabatas = tabataconfig.getTabatas();
     }
 
     public String getName() {

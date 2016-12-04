@@ -1,6 +1,7 @@
 package com.example.david.tabatatimer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,9 +29,23 @@ public class TabataConfigList extends AppCompatActivity {
 
         final List<Tabataconfig> configurations = TabataconfigDAO.selectAll();
 
+
         listView = (ListView) findViewById(R.id.listView);
 
-        ArrayAdapter<Tabataconfig> adapter = new ArrayAdapter<Tabataconfig>(this, R.layout.activity_tabata_config_list_row, configurations) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                            @Override
+                                            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                                                Tabataconfig configSelected = configurations.get(position);
+                                                Intent returnIntent = new Intent();
+                                                returnIntent.putExtra("Tabataconfig",configSelected);
+                                                setResult(RESULT_OK,returnIntent);
+                                                finish();
+                                            }
+                                        });
+
+
+                ArrayAdapter<Tabataconfig> adapter = new ArrayAdapter<Tabataconfig>(this, R.layout.activity_tabata_config_list_row, configurations) {
 
             @NonNull
             @Override
@@ -53,11 +69,11 @@ public class TabataConfigList extends AppCompatActivity {
                 // Charger la vue avec les données
                 Tabataconfig config = configurations.get(position);
                 configLabel.setText(config.getName());
-                work.setText("Work : "+Integer.toString(config.getWork()));
-                rest.setText("Rest : "+Integer.toString(config.getRest()));
-                prepare.setText("Prepare : "+Integer.toString(config.getPrepare()));
-                cycle.setText("Cycle : "+Integer.toString(config.getCycles()));
-                tabata.setText("Tabata : "+Integer.toString(config.getTabatas()));
+                work.setText("Work "+Integer.toString(config.getWork()));
+                rest.setText("Rest "+Integer.toString(config.getRest()));
+                prepare.setText("Prepare "+Integer.toString(config.getPrepare()));
+                cycle.setText("Cycle "+Integer.toString(config.getCycles()));
+                tabata.setText("Tabata "+Integer.toString(config.getTabatas()));
 
                 //
                 return convertView;

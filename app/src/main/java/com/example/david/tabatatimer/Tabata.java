@@ -21,12 +21,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.david.tabatatimer.data.Tabataconfig;
+import com.example.david.tabatatimer.data.TabataconfigDAO;
 import com.example.david.tabatatimer.tools.DurationPicker;
+
+import java.util.List;
 
 public class Tabata extends AppCompatActivity {
 
 
-    static final int PICK_CONFIG_REQUEST=1;
+    static final int PICK_CONFIG_REQUEST = 1;
     //VIEW
     private TextView currentTimerLabel;
     private TextView currentTimer;
@@ -96,7 +99,39 @@ public class Tabata extends AppCompatActivity {
     }
 
     public void save(View view) {
-        currentConfig.save();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Set the name of the config you want to save.");
+        final EditText input = new EditText(this);
+        input.setText(currentConfig.getName());
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                List<Tabataconfig> configurations = TabataconfigDAO.selectAll();
+                for (Tabataconfig config: configurations) {
+                    if (input.getText().toString().equals(config.getName())){
+                        currentConfig.setName(input.getText().toString());
+                        config.copy(currentConfig);
+                        config.save();
+                        break;
+                    }
+                }
+                if (!(input.getText().toString().equals(currentConfig.getName()))){
+                    currentConfig.setName(input.getText().toString());
+                    currentConfig = new Tabataconfig(currentConfig);
+                    currentConfig.save();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     public void start(View view) {
@@ -171,10 +206,21 @@ public class Tabata extends AppCompatActivity {
         }
     }
 
-    public void load (View view){
+    public void load(View view) {
         Intent intent = new Intent(this, TabataConfigList.class);
         startActivityForResult(intent, PICK_CONFIG_REQUEST);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_CONFIG_REQUEST) {
+            currentConfig =(Tabataconfig) data.getSerializableExtra("Tabataconfig");
+            miseAJour();
+        }
+    }
+
     public void setParam(View view) {
 
         int viewID = view.getId();
