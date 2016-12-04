@@ -1,16 +1,11 @@
 package com.example.david.tabatatimer;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +13,11 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
 
 import com.example.david.tabatatimer.data.Tabataconfig;
 import com.example.david.tabatatimer.data.TabataconfigDAO;
-import com.example.david.tabatatimer.tools.DurationPicker;
+
 
 import java.util.List;
 
