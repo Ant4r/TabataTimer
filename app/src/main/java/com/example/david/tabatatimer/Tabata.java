@@ -64,10 +64,32 @@ public class Tabata extends AppCompatActivity {
         stopButton = (Button) findViewById(R.id.StopButton);
         startButton = (Button) findViewById(R.id.StartButton);
         pauseButton = (Button) findViewById(R.id.PauseButton);
-
-
+        
         currentTimerName = "Ready to launch!";
         miseAJour();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putParcelable("saveOfCurrentConfig",saveOfCurrentConfig);
+        savedInstanceState.putParcelable("currentConfig", currentConfig);
+        savedInstanceState.putLong("updatedTime", updatedTime);
+        savedInstanceState.putString("currentTimerName", currentTimerName);
+        savedInstanceState.putString("saveCurrentTimerName", saveCurrentTimerName);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    //onRestoreInstanceState
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        saveOfCurrentConfig = savedInstanceState.getParcelable("saveOfCurrentConfig");
+        currentConfig = savedInstanceState.getParcelable("currentConfig");
+        updatedTime = savedInstanceState.getLong("updatedTime");
+        currentTimerName = savedInstanceState.getString("currentTimerName");
+        saveCurrentTimerName = savedInstanceState.getString("saveCurrentTimerName");
+
     }
 
     //Mise à jour Graphique
