@@ -64,7 +64,7 @@ public class Tabata extends AppCompatActivity {
         stopButton = (Button) findViewById(R.id.StopButton);
         startButton = (Button) findViewById(R.id.StartButton);
         pauseButton = (Button) findViewById(R.id.PauseButton);
-        
+
         currentTimerName = "Ready to launch!";
         miseAJour();
     }
@@ -77,6 +77,14 @@ public class Tabata extends AppCompatActivity {
         savedInstanceState.putLong("updatedTime", updatedTime);
         savedInstanceState.putString("currentTimerName", currentTimerName);
         savedInstanceState.putString("saveCurrentTimerName", saveCurrentTimerName);
+        if (!currentTimerName.equals("Ready to launch!")){
+            pause(pauseButton);
+            savedInstanceState.putBoolean("isRunning",true);
+        }
+        else {
+            savedInstanceState.putBoolean("isRunning",false);
+        }
+
         super.onSaveInstanceState(savedInstanceState);
     }
     //onRestoreInstanceState
@@ -89,7 +97,10 @@ public class Tabata extends AppCompatActivity {
         updatedTime = savedInstanceState.getLong("updatedTime");
         currentTimerName = savedInstanceState.getString("currentTimerName");
         saveCurrentTimerName = savedInstanceState.getString("saveCurrentTimerName");
-
+        if (!currentTimerName.equals("Ready to launch!") && !currentTimerName.equals("Paused!")){
+            start(startButton);
+        }
+        miseAJour();
     }
 
     //Mise à jour Graphique
@@ -217,6 +228,7 @@ public class Tabata extends AppCompatActivity {
             timer.cancel();
             currentConfig = saveOfCurrentConfig;
             currentTimerName = "Ready to launch!";
+            updatedTime = 0;
             miseAJour();
         }
     }
