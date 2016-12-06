@@ -13,16 +13,60 @@
 
     //Current Timer layout
 
+    //Prepare Layout
+
+    //Start Button
+
+    //Pause Button
+
+    //Work Layout
+
+    //RestLayout
+
+    //CyclesLayout
+
+    //TabatasLayout
+
+    <RelativeLayout
+        android:id="@+id/PrepareLayout"
+        android:layout_width="100dp"
+        android:layout_height="85dp"
+        android:gravity="center"
+        android:background="@drawable/shape"
+        android:onClick="setParam"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="Prepare"
+            android:textColor="@android:color/white"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/PrepareValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="00:00"
+            android:textColor="@android:color/white"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/CurrentTimerNameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
         android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:background="@drawable/shape"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:background="@drawable/shape">
+        android:layout_centerHorizontal="true"
+        android:layout_height="85dp">
 
         <TextView
             android:id="@+id/CurrentTimerLabel"
@@ -46,99 +90,28 @@
             android:textSize="35dp" />
     </RelativeLayout>
 
-    //Prepare Layout
-
-    <RelativeLayout
-        android:id="@+id/PrepareLayout"
-        android:layout_width="100dp"
-        android:layout_height="85dp"
-        android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/CurrentTimerNameLayout"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:background="@drawable/shape"
-        android:onClick="setParam">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:text="Prepare"
-            android:textColor="@android:color/white"
-            android:textSize="17dp" />
-
-        <TextView
-            android:id="@+id/PrepareValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="00:00"
-            android:textColor="@android:color/white"
-            android:textSize="25dp" />
-    </RelativeLayout>
-
-    //Start Button
-
-    //Pause Button
-
     <Button
-        android:id="@+id/PauseButton"
-        android:layout_width="100dp"
-        android:layout_height="85dp"
-        android:layout_below="@+id/PrepareLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:onClick="pause"
-        android:text="Pause" />
-
-    //Work Layout
-
-    <RelativeLayout
-        android:id="@+id/WorkLayout"
-        android:layout_width="100dp"
-        android:layout_height="85dp"
-        android:gravity="center"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/CurrentTimerNameLayout"
-        android:background="@drawable/shape"
-        android:onClick="setParam">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:text="Work"
-            android:textColor="@android:color/white"
-            android:textSize="17dp" />
-
-        <TextView
-            android:id="@+id/WorkValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="00:00"
-            android:textColor="@android:color/white"
-            android:textSize="25dp" />
-    </RelativeLayout>
-
-    //RestLayout
+        android:id="@+id/LoadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="load"
+        android:text="Load"
+        android:layout_alignBaseline="@+id/SaveButton"
+        android:layout_alignBottom="@+id/SaveButton"
+        android:layout_alignLeft="@+id/TabatasLayout"
+        android:layout_alignStart="@+id/TabatasLayout" />
 
     <RelativeLayout
         android:id="@+id/RestLayout"
         android:layout_width="100dp"
         android:layout_height="85dp"
         android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/PrepareLayout"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@drawable/shape"
-        android:onClick="setParam">
+        android:onClick="setParam"
+        android:layout_above="@+id/SaveButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="18dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -161,51 +134,27 @@
             android:textSize="25dp" />
     </RelativeLayout>
 
-    //CyclesLayout
-
-    <RelativeLayout
-        android:id="@+id/CyclesLayout"
+    <Button
+        android:id="@+id/StartButton"
         android:layout_width="100dp"
         android:layout_height="85dp"
-        android:gravity="center"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/PrepareLayout"
-        android:background="@drawable/shape"
-        android:onClick="setParam">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:text="Cycles"
-            android:textColor="@android:color/white"
-            android:textSize="17dp" />
-
-        <TextView
-            android:id="@+id/CyclesValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="00"
-            android:textColor="@android:color/white"
-            android:textSize="25dp" />
-    </RelativeLayout>
-
-    //TabatasLayout
+        android:onClick="start"
+        android:text="Start"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_alignTop="@+id/RestLayout"
+        android:layout_toRightOf="@+id/RestLayout"
+        android:layout_toEndOf="@+id/RestLayout" />
 
     <RelativeLayout
         android:id="@+id/TabatasLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="90dp"
         android:gravity="center"
-        android:layout_below="@+id/RestLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@drawable/shape"
-        android:onClick="setParam">
+        android:onClick="setParam"
+        android:layout_alignTop="@+id/StartButton"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -229,39 +178,101 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/SaveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/TabatasLayout"
-        android:onClick="save"
-        android:text="Save" />
+        android:id="@+id/PauseButton"
+        android:layout_width="100dp"
+        android:layout_height="85dp"
+        android:onClick="pause"
+        android:text="Pause"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_alignTop="@+id/TabatasLayout"
+        android:layout_toRightOf="@+id/LoadButton"
+        android:layout_toEndOf="@+id/LoadButton" />
 
     <Button
         android:id="@+id/StopButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/TabatasLayout"
         android:onClick="stop"
-        android:text="Stop" />
+        android:text="Stop"
+        android:layout_alignBaseline="@+id/LoadButton"
+        android:layout_alignBottom="@+id/LoadButton"
+        android:layout_toLeftOf="@+id/WorkLayout"
+        android:layout_toStartOf="@+id/WorkLayout" />
 
     <Button
-        android:id="@+id/StartButton"
-        android:layout_width="100dp"
-        android:layout_height="85dp"
-        android:layout_alignLeft="@+id/PauseButton"
-        android:layout_alignStart="@+id/PauseButton"
-        android:layout_below="@+id/CurrentTimerNameLayout"
-        android:onClick="start"
-        android:text="Start" />
-
-    <Button
-        android:id="@+id/LoadButton"
+        android:id="@+id/SaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="load"
-        android:text="Load"
-        android:layout_below="@+id/TabatasLayout"
-        android:layout_centerHorizontal="true" />
+        android:onClick="save"
+        android:text="Save"
+        android:layout_marginBottom="13dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/RestLayout"
+        android:layout_toEndOf="@+id/RestLayout" />
+
+    <RelativeLayout
+        android:id="@+id/WorkLayout"
+        android:layout_width="100dp"
+        android:layout_height="85dp"
+        android:gravity="center"
+        android:background="@drawable/shape"
+        android:onClick="setParam"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="Work"
+            android:textColor="@android:color/white"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/WorkValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="00:00"
+            android:textColor="@android:color/white"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/CyclesLayout"
+        android:layout_width="100dp"
+        android:layout_height="85dp"
+        android:gravity="center"
+        android:background="@drawable/shape"
+        android:onClick="setParam"
+        android:layout_alignTop="@+id/PauseButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="Cycles"
+            android:textColor="@android:color/white"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/CyclesValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="00"
+            android:textColor="@android:color/white"
+            android:textSize="25dp" />
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -1,16 +1,11 @@
 package com.example.david.tabatatimer;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -18,15 +13,18 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
 
 import com.example.david.tabatatimer.data.Tabataconfig;
-import com.example.david.tabatatimer.tools.DurationPicker;
+import com.example.david.tabatatimer.data.TabataconfigDAO;
+
+
+import java.util.List;
 
 public class Tabata extends AppCompatActivity {
 
 
-    static final int PICK_CONFIG_REQUEST=1;
+    static final int PICK_CONFIG_REQUEST = 1;
     //VIEW
     private TextView currentTimerLabel;
     private TextView currentTimer;
@@ -42,7 +40,7 @@ public class Tabata extends AppCompatActivity {
     private Button pauseButton;
     //DATA
     private Tabataconfig saveOfCurrentConfig;
-    private Tabataconfig currentConfig;
+    private Tabataconfig currentConfig = new Tabataconfig("Default", 5, 5, 3, 4, 1);
     private long updatedTime;
     private CountDownTimer timer;
     private String currentTimerName;
@@ -67,10 +65,41 @@ public class Tabata extends AppCompatActivity {
         startButton = (Button) findViewById(R.id.StartButton);
         pauseButton = (Button) findViewById(R.id.PauseButton);
 
-
         currentTimerName = "Ready to launch!";
-        currentConfig = new Tabataconfig("test", 5, 5, 3, 4, 1);
+        miseAJour();
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putParcelable("saveOfCurrentConfig",saveOfCurrentConfig);
+        savedInstanceState.putParcelable("currentConfig", currentConfig);
+        savedInstanceState.putLong("updatedTime", updatedTime);
+        savedInstanceState.putString("currentTimerName", currentTimerName);
+        savedInstanceState.putString("saveCurrentTimerName", saveCurrentTimerName);
+        if (!currentTimerName.equals("Ready to launch!")){
+            pause(pauseButton);
+            savedInstanceState.putBoolean("isRunning",true);
+        }
+        else {
+            savedInstanceState.putBoolean("isRunning",false);
+        }
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    //onRestoreInstanceState
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        saveOfCurrentConfig = savedInstanceState.getParcelable("saveOfCurrentConfig");
+        currentConfig = savedInstanceState.getParcelable("currentConfig");
+        updatedTime = savedInstanceState.getLong("updatedTime");
+        currentTimerName = savedInstanceState.getString("currentTimerName");
+        saveCurrentTimerName = savedInstanceState.getString("saveCurrentTimerName");
+        if (!currentTimerName.equals("Ready to launch!") && !currentTimerName.equals("Paused!")){
+            start(startButton);
+        }
         miseAJour();
     }
 
@@ -96,7 +125,39 @@ public class Tabata extends AppCompatActivity {
     }
 
     public void save(View view) {
-        currentConfig.save();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Set the name of the config you want to save.");
+        final EditText input = new EditText(this);
+        input.setText(currentConfig.getName());
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                List<Tabataconfig> configurations = TabataconfigDAO.selectAll();
+                for (Tabataconfig config: configurations) {
+                    if (input.getText().toString().equals(config.getName())){
+                        currentConfig.setName(input.getText().toString());
+                        config.copy(currentConfig);
+                        config.save();
+                        break;
+                    }
+                }
+                if (!(input.getText().toString().equals(currentConfig.getName()))){
+                    currentConfig.setName(input.getText().toString());
+                    currentConfig = new Tabataconfig(currentConfig);
+                    currentConfig.save();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     public void start(View view) {
@@ -167,14 +228,28 @@ public class Tabata extends AppCompatActivity {
             timer.cancel();
             currentConfig = saveOfCurrentConfig;
             currentTimerName = "Ready to launch!";
+            updatedTime = 0;
             miseAJour();
         }
     }
 
-    public void load (View view){
+    public void load(View view) {
         Intent intent = new Intent(this, TabataConfigList.class);
         startActivityForResult(intent, PICK_CONFIG_REQUEST);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_CONFIG_REQUEST) {
+            if (resultCode==RESULT_OK){
+                currentConfig =(Tabataconfig) data.getParcelableExtra("Tabataconfig");
+                miseAJour();
+            }
+        }
+    }
+
     public void setParam(View view) {
 
         int viewID = view.getId();
