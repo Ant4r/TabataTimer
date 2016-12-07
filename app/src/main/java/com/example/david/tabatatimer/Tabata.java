@@ -71,19 +71,19 @@ public class Tabata extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-
+        if (currentTimerName.equals("Ready to launch!") || currentTimerName.equals("Paused!")){
+            savedInstanceState.putBoolean("isRunning",false);
+        }
+        else {
+            savedInstanceState.putBoolean("isRunning",true);
+            pause(pauseButton);
+        }
         savedInstanceState.putParcelable("saveOfCurrentConfig",saveOfCurrentConfig);
         savedInstanceState.putParcelable("currentConfig", currentConfig);
         savedInstanceState.putLong("updatedTime", updatedTime);
         savedInstanceState.putString("currentTimerName", currentTimerName);
         savedInstanceState.putString("saveCurrentTimerName", saveCurrentTimerName);
-        if (!currentTimerName.equals("Ready to launch!")){
-            pause(pauseButton);
-            savedInstanceState.putBoolean("isRunning",true);
-        }
-        else {
-            savedInstanceState.putBoolean("isRunning",false);
-        }
+
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -97,7 +97,8 @@ public class Tabata extends AppCompatActivity {
         updatedTime = savedInstanceState.getLong("updatedTime");
         currentTimerName = savedInstanceState.getString("currentTimerName");
         saveCurrentTimerName = savedInstanceState.getString("saveCurrentTimerName");
-        if (!currentTimerName.equals("Ready to launch!") && !currentTimerName.equals("Paused!")){
+        boolean isRunning = savedInstanceState.getBoolean("isRunning");
+        if (isRunning){
             start(startButton);
         }
         miseAJour();
